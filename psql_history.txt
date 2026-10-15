@@ -1,0 +1,24 @@
+\d
+\d customers
+ALTER TABLE customers ADD COLUMN phone VARCHAR(13);
+ALTER TABLE customers ADD COLUMN name VARCHAR(60);
+ALTER TABLE services ADD COLUMN name VARCHAR(60);
+\d customers
+\d customers
+ALTER TABLE customers ALTER COLUMN name SET UNIQUE;
+ALTER TABLE customers ADD CONSTRAINT UNIQUE (name);
+ALTER TABLE customers ALTER COLUMN name ADD UNIQUE;
+ALTER TABLE customers ALTER COLUMN name ADD UNIQUE (name);
+ALTER TABLE customers ALTER COLUMN name ADD CONSTRAINT UNIQUE;
+ALTER TABLE customers ALTER COLUMN name ADD CONSTRAINT UNIQUE(name);
+ALTER TABLE customers ALTER COLUMN name UNIQUE;
+ALTER TABLE customers ALTER COLUMN name UNIQUE(name);
+ALTER TABLE customers ALTER COLUMN name (UNIQUE);
+ALTER TABLE customers ADD UNIQUE (name)
+;
+ALTER TABLE services  ADD UNIQUE (name)
+;
+\d services
+\d customers
+ALTER TABLE appointments ADD COLUMN time VARCHAR(20);
+\s psql_history.txt
