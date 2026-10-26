@@ -44,24 +44,30 @@ SERVICES_MENU () {
 
   read CUSTOMER_PHONE
 
-  # Search for the customer phone in the database
-  REGISTERED_PHONE=$( $PSQL "SELECT name FROM customers WHERE phone='$CUSTOMER_PHONE';" )
+  # Search for the customer name in the database
+  CUSTOMER_NAME=$( $PSQL "SELECT name FROM customers WHERE phone='$CUSTOMER_PHONE';" )
     
   # If negative, ask for the customer name
-  if [[ -z $REGISTERED_PHONE ]]
+  if [[ -z $CUSTOMER_NAME ]]
   then
     echo -e "\nPlease, enter your name:"
 
     read CUSTOMER_NAME
 
     # Add name and phone to the customers table
-    REGISTERED_NAME=$( $PSQL "INSERT INTO customers (phone, name) VALUES ('$CUSTOMER_PHONE', '$CUSTOMER_NAME');" )
+    REGISTERED_CUSTOMER=$( $PSQL "INSERT INTO customers (phone, name) VALUES ('$CUSTOMER_PHONE', '$CUSTOMER_NAME');" )
 
   fi
 
   # Ask for the time of the appointment
-  # Create an appointment in the appropriate table
+  echo -e "\nWhat time works best for you?"
 
+  read SERVICE_TIME
+
+  # Create an appointment in the appropriate table
+  CUSTOMER_ID=$( $PSQL "SELECT customer_id FROM customers WHERE name='$CUSTOMER_NAME';" )
+    
+  BOOKED_SERVICE=$( $PSQL "INSERT INTO appointments (customer_id, service_id, time) VALUES ($CUSTOMER_ID, $SERVICE_ID_SELECTED, '$SERVICE_TIME');" )
 
 } 
 
