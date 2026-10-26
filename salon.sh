@@ -5,10 +5,6 @@
 PSQL='psql -U freecodecamp -d salon --no-align --tuples-only -c'
 
 SERVICES_MENU () {
-  EXIT () {
-  echo 'Come back soon.'
-  }
-
   if [[ -z $1 ]]
   then
 
@@ -35,9 +31,9 @@ SERVICES_MENU () {
 
   fi
 
-  SELECTED_SERVICE=$( $PSQL "SELECT * FROM services WHERE service_id=$SERVICE_ID_SELECTED;" )
+  SERVICE_ID=$( $PSQL "SELECT * FROM services WHERE service_id=$SERVICE_ID_SELECTED;" )
   
-  if [[ -n $SERVICE_ID_SELECTED ]]
+  if [[ -n $SERVICE_ID ]]
   then
     echo 'Service found.'
   
@@ -46,14 +42,6 @@ SERVICES_MENU () {
   
   fi
 
-: '
-  case $SERVICE_CHOSEN in
-    1) EXIT ;;
-
-    *) SERVICES_MENU 'Please select a valid option.' ;; 
-  
-  esac
-: '
 } 
 
 SERVICES_MENU
