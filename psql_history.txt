@@ -1,8 +1,6 @@
-\d
-\d appointments
 \d customers
-\d services
-INSERT INTO services (name) VALUES ('cut', 'coloring', 'manicure', 'facial treatment', 'lymphatic drainage massage');
-INSERT INTO services (name) VALUES ('cut'), ('coloring'), ('manicure'), ('facial treatment'), ('lymphatic drainage massage');
-SELECT * FROM services;
+ALTER TABLE customers ADD UNIQUE (phone);
+\d customers
+SELECT * FROM customers;
+SELECT * FROM customers;
 \s psql_history.txt

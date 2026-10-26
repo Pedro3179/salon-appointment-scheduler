@@ -25,7 +25,7 @@ SERVICES_MENU () {
     read SERVICE_ID_SELECTED
   
   else
-    echo $1
+    echo -e "\n$1"
 
     SERVICES_MENU
 
@@ -33,14 +33,35 @@ SERVICES_MENU () {
 
   SERVICE_ID=$( $PSQL "SELECT * FROM services WHERE service_id=$SERVICE_ID_SELECTED;" )
   
-  if [[ -n $SERVICE_ID ]]
+  if [[ -z $SERVICE_ID ]]
   then
-    echo 'Service found.'
-  
-  else
-    SERVICES_MENU 'Please select a valid option.'
+    SERVICES_MENU 'Please, select a valid option.'
   
   fi
+
+  # Ask for the customer phone
+  echo -e "\nEnter your phone number:"
+
+  read CUSTOMER_PHONE
+
+  # Search for the customer phone in the database
+  REGISTERED_PHONE=$( $PSQL "SELECT name FROM customers WHERE phone='$CUSTOMER_PHONE';" )
+    
+  # If negative, ask for the customer name
+  if [[ -z $REGISTERED_PHONE ]]
+  then
+    echo -e "\nPlease, enter your name:"
+
+    read CUSTOMER_NAME
+
+    # Add name and phone to the customers table
+    REGISTERED_NAME=$( $PSQL "INSERT INTO customers (phone, name) VALUES ('$CUSTOMER_PHONE', '$CUSTOMER_NAME');" )
+
+  fi
+
+  # Ask for the time of the appointment
+  # Create an appointment in the appropriate table
+
 
 } 
 
