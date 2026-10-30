@@ -1,19 +1,19 @@
 #!/bin/bash
 
-# This script makes an appointment in a salon
+# This script makes an appointment at a salon
 
 PSQL='psql -U freecodecamp -d salon --no-align --tuples-only -c'
 
 SERVICES_MENU () {
   if [[ -z $1 ]]
   then
-    # Get the service id and name
+    # Get the service ID and name
     echo -e "\n~~~~~ Welcome to Spa da Beleza ~~~~~\n"
 
-    AVAILABLE_SERVICES=$( $PSQL "SELECT * FROM services;")
+    AVAILABLE_SERVICES=$( $PSQL "SELECT * FROM services ORDER BY service_id;" )
     
     # Print each service id and name in a formatted manner
-    echo -e "$AVAILABLE_SERVICES" | while IFS="|" read ID NAME
+    echo "$AVAILABLE_SERVICES" | while IFS="|" read ID NAME
     do
       echo "$ID) $NAME"
 
@@ -23,7 +23,6 @@ SERVICES_MENU () {
 
     read SERVICE_ID_SELECTED
     
-  
   else
     echo -e "\n$1"
 
@@ -35,22 +34,22 @@ SERVICES_MENU () {
   
   if [[ -z $SERVICE ]]
   then
-    SERVICES_MENU 'Please, select a valid option.'
+    SERVICES_MENU 'Please select a valid option.'
   
   fi
 
-  # Ask for the customer phone
+  # Ask for the customer's phone
   echo -e "\nEnter your phone number:"
 
   read CUSTOMER_PHONE
 
-  # Search for the customer name in the database
+  # Search for the customer's name in the database
   CUSTOMER_NAME=$( $PSQL "SELECT name FROM customers WHERE phone='$CUSTOMER_PHONE';" )
     
-  # If negative, ask for the customer name
+  # If it is not found, ask for the customer's name
   if [[ -z $CUSTOMER_NAME ]]
   then
-    echo -e "\nPlease, enter your name:"
+    echo -e "\nPlease enter your name:"
 
     read CUSTOMER_NAME
 
@@ -72,6 +71,8 @@ SERVICES_MENU () {
   SERVICE_NAME=$( echo $SERVICE | sed 's/.|//' )
 
   echo -e "\nI have put you down for a $SERVICE_NAME at $SERVICE_TIME, $CUSTOMER_NAME."
+
+  exit 0
 } 
 
 SERVICES_MENU

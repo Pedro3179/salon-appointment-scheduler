@@ -1,6 +1,1 @@
-\d customers
-ALTER TABLE customers ADD UNIQUE (phone);
-\d customers
-SELECT * FROM customers;
-SELECT * FROM customers;
 \s psql_history.txt
